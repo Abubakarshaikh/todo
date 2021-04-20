@@ -12,8 +12,14 @@ class UpdateScreen extends StatelessWidget {
     updateData.text = updateScreen;
     String title;
     return Container(
+      padding: EdgeInsets.only(left: 12, right: 12),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Text(
+            'Update task',
+            textAlign: TextAlign.center,
+          ),
           TextField(
             controller: updateData,
             onChanged: (value) {
@@ -21,6 +27,8 @@ class UpdateScreen extends StatelessWidget {
             },
           ),
           ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.deepOrange)),
             onPressed: () {
               Provider.of<TaskController>(context, listen: false)
                   .updateTask(id, title);
