@@ -18,6 +18,10 @@ class UpdateScreen extends StatelessWidget {
         children: [
           Text(
             'Update task',
+            style: TextStyle(
+              color: Colors.deepOrange,
+              fontSize: 28,
+            ),
             textAlign: TextAlign.center,
           ),
           TextField(
