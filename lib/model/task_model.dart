@@ -1,20 +1,20 @@
 import 'dart:io';
-
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class DatabaseHelper {
-  DatabaseHelper._privateConstructor();
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
-  final _databaseName = 'mydatabase4.db';
-  final _databaseVersion = 1;
+class DatabaseTaskModel {
+  DatabaseTaskModel._privateConstructor();
+  static final DatabaseTaskModel instance =
+      DatabaseTaskModel._privateConstructor();
   Database _database;
+  final _databaseName = 'mydatabase5.db';
+  final _databaseVersion = 1;
+  final table = 'demo3';
 
-  final table = 'demo1';
-  static final columnIsDone = 'isDone';
   static final columnId = 'id';
   static final columnTitle = 'title';
+  static final columnIsDone = 'isdone';
 
   // 1. create database
   Future<Database> get database async {
@@ -26,7 +26,7 @@ class DatabaseHelper {
     }
   }
 
-  // 2. initiazlized database
+  // 2. initialized database
   _initDatabase() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, _databaseName);
@@ -37,18 +37,19 @@ class DatabaseHelper {
     );
   }
 
-  // 3. database table
+  // 3. create database tables ..
   _onCreate(Database db, int version) async {
     return await db.execute('''
       CREATE TABLE $table(
         $columnId INTEGER PRIMARY KEY,
-        $columnIsDone INTEGER NOT NULL,
-        $columnTitle TEXT NOT NULL
+        $columnTitle TEXT NOT NULL,
+        $columnIsDone INTEGER NOT NULL
       )
       ''');
   }
 
-  // 4. CRUD: OPERATION
+  // 4. CRUD operations
+
   Future<int> taskInsert(Map<String, Object> row) async {
     Database dbHelper = await instance.database;
     return dbHelper.insert(table, row);
@@ -59,7 +60,7 @@ class DatabaseHelper {
     return dbHelper.query(table);
   }
 
-  Future<int> taskUpdate(int id, Map<String, Object> row) async {
+  Future<int> taskUpdate(Map<String, Object> row, int id) async {
     Database dbHelper = await instance.database;
     return dbHelper.update(table, row, where: "id=?", whereArgs: [id]);
   }
